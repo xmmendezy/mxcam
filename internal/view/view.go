@@ -19,6 +19,7 @@ const view_main = `
     - command        Gestión a los commandos de la api
     - source         Gestión a los grupos de direcciones
     - logs           Exportar en un archivo
+    - thread           Definir cantidad de subprocesos
     - exit           Salir
     `
 
@@ -296,6 +297,21 @@ const view_source_view_action_run_get_data_6 = "No se ha encontrado el comando"
 
 const view_source_logs_export = "Exportando logs en HOME."
 
+const view_thread_0 = `
+    Definir la cantidad de subprocesos utilizados por este programa.
+
+    El valor actual es de %s.
+
+    Debe ingresar una cantidad o escribir 'cancel' para regresar.
+
+`
+
+const view_thread_1 = "    Ingresar cantidad: "
+
+const view_thread_2 = "No se ha podido actualizar, valor inesperado"
+
+const view_thread_3 = "Actualizando."
+
 func ViewText(view_name string) string {
 	texts := map[string]string{
 		"error_help":                             error_help,
@@ -373,6 +389,10 @@ func ViewText(view_name string) string {
 		"view_source_view_action_run_get_data_5": view_source_view_action_run_get_data_5,
 		"view_source_view_action_run_get_data_6": view_source_view_action_run_get_data_6,
 		"view_source_logs_export":                view_source_logs_export,
+		"view_thread_0":                          view_thread_0,
+		"view_thread_1":                          view_thread_1,
+		"view_thread_2":                          view_thread_2,
+		"view_thread_3":                          view_thread_3,
 	}
 	var val, ok = texts[view_name]
 	if ok {

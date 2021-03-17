@@ -1,1 +1,4 @@
-database.db
+database*
+poetry.lock
+mxcam.egg-info
+**/__pycache__/**

@@ -34,6 +34,8 @@ var clear map[string]func()
 
 const log_default = "{{.now}} - Ejecución responde con código {{.status}} desde {{.ip}} en el puerto {{.port}} - Error: {{.error}}"
 
+var GOMAXPROCS int = 10
+
 type IpSer struct {
 	Ip   string `json:"ip"`
 	Port string `json:"port"`
@@ -188,6 +190,8 @@ func ControllerMain() {
 		"s":       ControllerSource,
 		"logs":    ControllerLogsExport,
 		"l":       ControllerLogsExport,
+		"thread":  ControllerThread,
+		"t":       ControllerThread,
 	})
 }
 
@@ -795,7 +799,7 @@ func ExecOnIps(ips *[]model.Ip, user *model.User, path string, command string, m
 	var logs []string = []string{}
 	CountIp = -1
 	PrintProgressBar(len(*ips))
-	runtime.GOMAXPROCS(10)
+	runtime.GOMAXPROCS(GOMAXPROCS)
 	var wg sync.WaitGroup
 	for i, ip := range *ips {
 		wg.Add(1)
@@ -941,5 +945,25 @@ func ControllerLogsExport() {
 	datawriter.Flush()
 	file.Close()
 	Loading("view_source_logs_export", 2)
+	ControllerMain()
+}
+
+func ControllerThread() {
+	Clear()
+	fmt.Println(fmt.Sprintf(view.ViewText("view_thread_0"), strconv.Itoa(GOMAXPROCS)))
+	cant_s := Input("view_thread_1")
+	if strings.ToLower(cant_s) == "cancel" {
+		ControllerMain()
+		return
+	}
+	var err error
+	var cant int
+	cant, err = strconv.Atoi(cant_s)
+	if err != nil {
+		Loading("view_thread_2", 2)
+	} else {
+		GOMAXPROCS = cant
+		Loading("view_thread_3", 2)
+	}
 	ControllerMain()
 }
