@@ -29,6 +29,11 @@ func init() {
 		cmd.Stdout = os.Stdout
 		cmd.Run()
 	}
+	clear["darwin"] = func() {
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
 	clear["windows"] = func() {
 		cmd := exec.Command("cmd", "/c", "cls")
 		cmd.Stdout = os.Stdout
